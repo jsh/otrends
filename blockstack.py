@@ -17,25 +17,30 @@ class BlockStack(collections.deque):
     <class 'blockstack.BlockStack'>
     >>> bs.coalesce(b)
     >>> print(bs)
-    latest trend: [1.0]
-        length: 1
+    [
+        [1.0]
+    ]
     >>> b = Block(s, 1, 2)
     >>> bs.coalesce(b)
     >>> print(bs)
-    latest trend: [1.0, 2.0, 3.0]
-        length: 1
+    [
+        [1.0, 2.0, 3.0]
+    ]
     >>> s = Sequence(3, [5, 2, 3])
     >>> b = Block(s, 0, 1)
     >>> bs = BlockStack()
     >>> bs.coalesce(b)
     >>> print(bs)
-    latest trend: [5.0]
-        length: 1
+    [
+        [5.0]
+    ]
     >>> b = Block(s, 1, 2)
     >>> bs.coalesce(b)
     >>> print(bs)
-    latest trend: [2.0, 3.0]
-        length: 2
+    [
+        [5.0]
+        [2.0, 3.0]
+    ]
     """
 
     def __init__(self):
@@ -45,11 +50,13 @@ class BlockStack(collections.deque):
         return "{}.{}".format(self.__class__.__module__, self.__class__.__qualname__)
 
     def __str__(self):
-        if not self:
-            return ""
-        return "latest trend: {}\n    length: {}".format(
-            self.latest().trend(), len(self)
-        )
+        s = ""
+        if self:
+            s += "[\n"
+            for block in self:
+                s += "    {}\n".format(block.trend())
+            s += "]"
+        return s
 
     def push(self, block):
         """push block on top of stack

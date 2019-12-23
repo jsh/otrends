@@ -12,7 +12,9 @@ LINT_FILES := $(patsubst %.py,%.lint,$(PYTHON_FILES))
 	pylint -rn $< | grep $< | sort -t: -k2 -n -r | tee $@
 	if [[ -s $@ ]]; then exit 1; else rm -f $@; fi
 
-checks: isort black lint lama doctest
+checks: format doctest
+
+format: isort black lint lama
 
 black: $(PYTHON_FILES)
 	black -q $?
