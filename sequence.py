@@ -52,3 +52,13 @@ class Sequence(list):
             new_block = Block(self, index, 1)
             blockstack.coalesce(new_block)
         return blockstack
+
+    def rotate(self, index):
+        """
+        Move sequence index..end to beginning
+        :param int index:
+        >>> s = Sequence(3, [1,2,3])
+        >>> s.rotate(2)
+        [3.0, 1.0, 2.0]
+        """
+        return self[index:] + self[:index]
