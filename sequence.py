@@ -24,8 +24,8 @@ class Sequence(list):
     3
     >>> isinstance(s[-1], float)
     True
-    >>> print(s) #doctest: +ELLIPSIS
-    [...]
+    >>> print(s)
+    [1.0, 2.0, 3.0]
     >>> bs = s.collect_and_merge()
     >>> len(bs)
     1
