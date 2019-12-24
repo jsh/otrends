@@ -1,10 +1,10 @@
 PYTHON_FILES := $(wildcard *.py)
-DOCTEST_FILES := $(patsubst %.py,%.doctest,$(PYTHON_FILES))
+DOCTEST_FILES := $(patsubst %.py,%.test,$(PYTHON_FILES))
 LINT_FILES := $(patsubst %.py,%.lint,$(PYTHON_FILES))
 
 .SILENT:
 
-%.doctest : %.py
+%.test : %.py
 	python -mdoctest $< | tee $@
 	if [[ -s $@ ]]; then exit 1; else rm -f $@; fi
 
@@ -22,7 +22,7 @@ black: $(PYTHON_FILES)
 clean:
 	git clean -dfx
 
-doctest: $(DOCTEST_FILES)
+test: $(DOCTEST_FILES)
 
 isort:
 	isort $(PYTHON_FILES)
