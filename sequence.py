@@ -63,4 +63,4 @@ class Sequence(list):
         >>> s.rotate(2)
         [3.0, 1.0, 2.0]
         """
-        return self[index:] + self[:index]
+        return Sequence(len(self), self[index:] + self[:index])
