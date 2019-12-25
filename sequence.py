@@ -26,11 +26,6 @@ class Sequence(list):
     True
     >>> print(s)
     [1.0, 2.0, 3.0]
-    >>> bs = s.collect_and_merge()
-    >>> len(bs)
-    1
-    >>> len(Sequence(3, [3,2,1]).collect_and_merge())
-    3
     """
 
     def __init__(self, length, elems=None):
@@ -46,6 +41,13 @@ class Sequence(list):
         Decompose sequence into trends.
         :return: a list of blocks representing maximal trends
         :rtype: BlockStack
+
+        >>> s = Sequence(3, [1,2,3])
+        >>> bs = s.collect_and_merge()
+        >>> len(bs)
+        1
+        >>> len(Sequence(3, [3,2,1]).collect_and_merge())
+        3
         """
         blockstack = BlockStack()
         for index in range(len(self)):

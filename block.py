@@ -110,16 +110,26 @@ class Block:
         >>> b.mu()
         2.0
         """
-        return self._total / self._length
+        return self.total / self.length
 
     def trend(self):
         """return block subsequence.
         >>> from sequence import Sequence
         >>> s = Sequence(6, [0, 1, 1, 2, 3, 5])
         >>> b = Block(s, 1, 2)
-        >>> c = Block(s, 3, 2)
+        >>> print(b.trend())
+        [1.0, 1.0]
+        >>> b = Block(s, 5, 2)
+        >>> print(b.trend())
+        [5.0, 0.0]
         """
-        return self._seq[self._start : self._start + self._length]
+        start = self.start
+        end = (start + self.length) % len(self.seq)
+        if end > start:
+            trend = self.seq[start:end]
+        else:  # wraps around
+            trend = self.seq[start:] + self.seq[:end]
+        return trend
 
     def left_neighbor(self, other):
         """is self the left-hand neighbor of other?
