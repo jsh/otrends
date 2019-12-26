@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
+"""
+Demo the modules.
+"""
 
-from sequence import Sequence
 import sys
 
+from sequence import Sequence
 
 elems = sys.argv[1:]
 if elems:
