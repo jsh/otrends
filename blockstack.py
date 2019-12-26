@@ -20,10 +20,8 @@ class BlockStack(collections.deque):
     def __str__(self):
         s = ""
         if self:
-            rself = self
-            collections.deque.reverse(rself)
             s += "[\n"
-            for block in rself:
+            for block in self:
                 s += "    {}\n".format(block.trend())
             s += "]"
         return s
