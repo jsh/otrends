@@ -12,7 +12,7 @@ class Block:
     :param int length: The length of the subsequence
 
     >>> from sequence import Sequence
-    >>> s = Sequence(6, [0, 1, 1, 2, 3, 5])
+    >>> s = Sequence([0, 1, 1, 2, 3, 5])
     >>> b = Block(s, 0, 1)
     >>> type(b)
     <class 'block.Block'>
@@ -30,7 +30,7 @@ class Block:
     def __repr__(self):
         """representation that permits object creation
         >>> from sequence import Sequence
-        >>> s = Sequence(6, [0, 1, 1, 2, 3, 5])
+        >>> s = Sequence([0, 1, 1, 2, 3, 5])
         >>> b = Block(s, 0, 1)
         >>> print(repr(b))
         block.Block([0.0, 1.0, 1.0, 2.0, 3.0, 5.0], 0, 1, total=0.0)
@@ -47,7 +47,7 @@ class Block:
     def __str__(self):
         """user-friendly representation
         >>> from sequence import Sequence
-        >>> s = Sequence(6, [0, 1, 1, 2, 3, 5])
+        >>> s = Sequence([0, 1, 1, 2, 3, 5])
         >>> b = Block(s, 0, 1)
         >>> print(b)
         trend: [0.0]
@@ -95,7 +95,7 @@ class Block:
     def total(self):
         """report block total.
         >>> from sequence import Sequence
-        >>> s = Sequence(6, [0, 1, 1, 2, 3, 5])
+        >>> s = Sequence([0, 1, 1, 2, 3, 5])
         >>> b = Block(s, 2, 3)
         >>> b.total
         6.0
@@ -105,7 +105,7 @@ class Block:
     def mu(self):
         """report block mean.
         >>> from sequence import Sequence
-        >>> s = Sequence(6, [0, 1, 1, 2, 3, 5])
+        >>> s = Sequence([0, 1, 1, 2, 3, 5])
         >>> b = Block(s, 0, 6)
         >>> b.mu()
         2.0
@@ -115,7 +115,7 @@ class Block:
     def trend(self):
         """return block subsequence.
         >>> from sequence import Sequence
-        >>> s = Sequence(6, [0, 1, 1, 2, 3, 5])
+        >>> s = Sequence([0, 1, 1, 2, 3, 5])
         >>> b = Block(s, 1, 2)
         >>> print(b.trend())
         [1.0, 1.0]
@@ -136,7 +136,7 @@ class Block:
         :param Block other:
 
         >>> from sequence import Sequence
-        >>> s = Sequence(6, [0, 1, 1, 2, 3, 5])
+        >>> s = Sequence([0, 1, 1, 2, 3, 5])
         >>> a = Block(s, 0, 2)
         >>> b = Block(s, 2, 2)
         >>> c = Block(s, 4, 2)
@@ -154,7 +154,7 @@ class Block:
         :param Block other:
 
         >>> from sequence import Sequence
-        >>> s = Sequence(6, [0, 1, 1, 2, 3, 5])
+        >>> s = Sequence([0, 1, 1, 2, 3, 5])
         >>> b = Block(s, 1, 2)
         >>> c = Block(s, 3, 2)
         >>> merger = b.merge(c)

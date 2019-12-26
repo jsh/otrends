@@ -10,16 +10,15 @@ from blockstack import BlockStack
 
 class Sequence(list):
     """
-    A list of reals, uniformly distributed [0,1)
-    :param int length: length of list
-    :param list[float] elems: optional initializer elements
+    A list of reals
+    :param int or list args: optional initializer elements
 
     >>> s = Sequence(69)
     >>> type(s)
     <class 'sequence.Sequence'>
     >>> len(s)
     69
-    >>> s = Sequence(3, [1,2,3])
+    >>> s = Sequence([1,2,3])
     >>> len(s)
     3
     >>> isinstance(s[-1], float)
@@ -28,13 +27,14 @@ class Sequence(list):
     [1.0, 2.0, 3.0]
     """
 
-    def __init__(self, length, elems=None):
-        if elems:
-            assert len(elems) == length
-            rlist = [float(elem) for elem in elems]
-        else:
-            rlist = np.random.rand(length)
-        super().__init__(rlist)
+    def __init__(self, arg):
+        # print(args, type(args))
+        if type(arg) == int:                # size of random list
+            elems = np.random.rand(arg)
+        else:                                   # elements of list
+            elems = arg
+            elems = [float(elem) for elem in elems]
+        super().__init__(elems)
 
     def collect_and_merge(self):
         """
@@ -42,11 +42,11 @@ class Sequence(list):
         :return: a list of blocks representing maximal trends
         :rtype: BlockStack
 
-        >>> s = Sequence(3, [1,2,3])
+        >>> s = Sequence([1,2,3])
         >>> bs = s.collect_and_merge()
         >>> len(bs)
         1
-        >>> len(Sequence(3, [3,2,1]).collect_and_merge())
+        >>> len(Sequence([3,2,1]).collect_and_merge())
         3
         """
         blockstack = BlockStack()
@@ -59,8 +59,8 @@ class Sequence(list):
         """
         Move sequence index..end to beginning
         :param int index:
-        >>> s = Sequence(3, [1,2,3])
+        >>> s = Sequence([1,2,3])
         >>> s.rotate(2)
         [3.0, 1.0, 2.0]
         """
-        return Sequence(len(self), self[index:] + self[:index])
+        return Sequence(self[index:] + self[:index])

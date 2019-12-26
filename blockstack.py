@@ -33,7 +33,7 @@ class BlockStack(collections.deque):
 
         >>> from sequence import Sequence
         >>> from block import Block
-        >>> s = Sequence(3, [5, 2, 4])
+        >>> s = Sequence([5, 2, 4])
         >>> b = Block(s, 0, 1)
         >>> bs = BlockStack()
         >>> bs.coalesce(b)
@@ -54,7 +54,7 @@ class BlockStack(collections.deque):
 
         >>> from sequence import Sequence
         >>> from block import Block
-        >>> s = Sequence(4, [69, 1, 2, 4])
+        >>> s = Sequence([69, 1, 2, 4])
         >>> b = Block(s, 0, 1)
         >>> bs = BlockStack()
         >>> bs.coalesce(b)
@@ -64,8 +64,8 @@ class BlockStack(collections.deque):
         >>> bs.coalesce(b)
         >>> print(bs)
         [
-            [1.0, 2.0, 4.0]
             [69.0]
+            [1.0, 2.0, 4.0]
         ]
         """
         new_mean = block.mu()
@@ -82,7 +82,7 @@ class BlockStack(collections.deque):
 
         >>> from sequence import Sequence
         >>> from block import Block
-        >>> s = Sequence(4, [69, 1, 2, 4])
+        >>> s = Sequence([69, 1, 2, 4])
         >>> b = Block(s, 0, 1)
         >>> bs = BlockStack()
         >>> bs.coalesce(b)
