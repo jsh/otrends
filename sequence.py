@@ -28,12 +28,13 @@ class Sequence(list):
     """
 
     def __init__(self, arg):
-        # print(args, type(args))
-        if type(arg) == int:                # size of random list
+        if isinstance(arg, int):  # size of random list
             elems = np.random.rand(arg)
-        else:                                   # elements of list
+        elif isinstance(arg, list):  # elements of list
             elems = arg
             elems = [float(elem) for elem in elems]
+        else:
+            raise TypeError
         super().__init__(elems)
 
     def collect_and_merge(self):
