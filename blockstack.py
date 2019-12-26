@@ -26,7 +26,7 @@ class BlockStack(collections.deque):
             s += "]"
         return s
 
-    def latest(self):
+    def _latest(self):
         """most recent trend
         :return: top block of stack
         :rtype: Block
@@ -39,7 +39,7 @@ class BlockStack(collections.deque):
         >>> bs.coalesce(b)
         >>> b = Block(s, 1, 2)
         >>> bs.coalesce(b)
-        >>> bs.latest().trend()
+        >>> bs._latest().trend()
         [2.0, 4.0]
 
         """
@@ -69,7 +69,7 @@ class BlockStack(collections.deque):
         ]
         """
         new_mean = block.mu()
-        while self.latest() and (self.latest().mu() < new_mean):
+        while self._latest() and (self._latest().mu() < new_mean):
             top_of_stack = self.pop()
             block = top_of_stack.merge(block)
             new_mean = block.mu()

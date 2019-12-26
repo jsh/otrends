@@ -1,12 +1,11 @@
 """
-block
-
+Block: object representing a trend.
 """
 
 
 class Block:
     """
-    An annotated subsequnce of reals.
+    An annotated subsequence of reals.
     :param list[float] s: The underlying sequence
     :param int start: The start of the subsequence
     :param int length: The length of the subsequence
@@ -82,7 +81,7 @@ class Block:
 
     @property
     def length(self):
-        """the subsequence length.
+        """Subsequence length.
         >>> from sequence import Sequence
         >>> s = Sequence(69)
         >>> b = Block(s, 3, 12)
@@ -93,7 +92,7 @@ class Block:
 
     @property
     def total(self):
-        """report block total.
+        """Block total.
         >>> from sequence import Sequence
         >>> s = Sequence([0, 1, 1, 2, 3, 5])
         >>> b = Block(s, 2, 3)
@@ -102,8 +101,30 @@ class Block:
         """
         return self._total
 
+    def _left_neighbor(self, other):
+        """is self the left-hand neighbor of other?
+        :param Block other:
+        :return: Whether self is a left neighbor of other.
+        :rtype: bool
+
+        >>> from sequence import Sequence
+        >>> s = Sequence([0, 1, 1, 2, 3, 5])
+        >>> a = Block(s, 0, 2)
+        >>> b = Block(s, 2, 2)
+        >>> c = Block(s, 4, 2)
+        >>> a._left_neighbor(b)
+        True
+        >>> b._left_neighbor(a)
+        False
+        >>> c._left_neighbor(a)
+        True
+        """
+        return (self.start + self.length) % len(self.seq) == other.start
+
     def mu(self):
-        """report block mean.
+        """Block mean.
+        :return: block mean
+        :rtype: float
         >>> from sequence import Sequence
         >>> s = Sequence([0, 1, 1, 2, 3, 5])
         >>> b = Block(s, 0, 6)
@@ -114,6 +135,8 @@ class Block:
 
     def trend(self):
         """return block subsequence.
+        :return: block trend
+        :rtype: list[float]
         >>> from sequence import Sequence
         >>> s = Sequence([0, 1, 1, 2, 3, 5])
         >>> b = Block(s, 1, 2)
@@ -131,27 +154,11 @@ class Block:
             trend = self.seq[start:] + self.seq[:end]
         return trend
 
-    def left_neighbor(self, other):
-        """is self the left-hand neighbor of other?
-        :param Block other:
-
-        >>> from sequence import Sequence
-        >>> s = Sequence([0, 1, 1, 2, 3, 5])
-        >>> a = Block(s, 0, 2)
-        >>> b = Block(s, 2, 2)
-        >>> c = Block(s, 4, 2)
-        >>> a.left_neighbor(b)
-        True
-        >>> b.left_neighbor(a)
-        False
-        >>> c.left_neighbor(a)
-        True
-        """
-        return (self.start + self.length) % len(self.seq) == other.start
-
     def merge(self, other):
-        """ merge a block with its neighbor to the right.
-        :param Block other:
+        """ merge adjacent blocks
+        :param Block other: right-hand neighbor to merge
+        :return: block that includes both
+        :rtype: Block
 
         >>> from sequence import Sequence
         >>> s = Sequence([0, 1, 1, 2, 3, 5])
@@ -165,7 +172,7 @@ class Block:
         >>> merger.total == b.total + c.total
         True
         """
-        assert self.left_neighbor(other), "blocks {} and {} not adjacent".format(
+        assert self._left_neighbor(other), "blocks {} and {} not adjacent".format(
             self, other
         )
         merger = Block(

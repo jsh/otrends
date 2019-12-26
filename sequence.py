@@ -1,5 +1,5 @@
 """
-sequence
+Sequence: a sequence, which can be broken into trends or rotated.
 """
 
 import numpy as np
@@ -60,6 +60,9 @@ class Sequence(list):
         """
         Move sequence index..end to beginning
         :param int index:
+        :return: the rotated sequence
+        :rtype: Sequence
+
         >>> s = Sequence([1,2,3])
         >>> s.rotate(2)
         [3.0, 1.0, 2.0]
