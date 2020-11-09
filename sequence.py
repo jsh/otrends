@@ -2,7 +2,7 @@
 Sequence: a sequence, which can be broken into trends or rotated.
 """
 
-import numpy as np
+import numpy as np  # type: ignore
 
 from block import Block
 from blockstack import BlockStack

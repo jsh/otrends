@@ -18,13 +18,13 @@ class BlockStack(collections.deque):
         return "{}.{}".format(self.__class__.__module__, self.__class__.__qualname__)
 
     def __str__(self):
-        s = ""
+        string = ""
         if self:
-            s += "[\n"
+            string += "[\n"
             for block in self:
-                s += "    {}\n".format(block.trend())
-            s += "]"
-        return s
+                string += "    {}\n".format(block.trend())
+            string += "]"
+        return string
 
     def _latest(self):
         """most recent trend

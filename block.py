@@ -54,7 +54,7 @@ class Block:
             (seq: [0.0, 1.0, 1.0, 2.0, 3.0, 5.0])
         """
         return "trend: {}\n    start: {}, length: {}, mean: {}\n    (seq: {})".format(
-            self.trend(), self._start, self._length, self.mu(), self.seq
+            self.trend(), self._start, self._length, self.arithmetic_mean(), self.seq
         )
 
     @property
@@ -121,7 +121,7 @@ class Block:
         """
         return (self.start + self.length) % len(self.seq) == other.start
 
-    def mu(self):
+    def arithmetic_mean(self):
         """Block mean.
         :return: block mean
         :rtype: float

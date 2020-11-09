@@ -1,35 +1,50 @@
-PYTHON_FILES := $(wildcard *.py)
-DOCTEST_FILES := $(patsubst %.py,%.test,$(PYTHON_FILES))
-LINT_FILES := $(patsubst %.py,%.lint,$(PYTHON_FILES))
+# The usual
 
-.SILENT:
+SOURCES := $(wildcard *.py)
+TESTS := $(wildcard t/*.py)
+PIPENV_PACKAGES := bandit isort mypy pycodestyle pydocstyle pyflakes pylama pylama_pylint pytest pytest-cov
 
-%.test : %.py
-	python -mdoctest $< | tee $@
-	if [[ -s $@ ]]; then exit 1; else rm -f $@; fi
+all: lint test requirements.txt
 
-%.lint : %.py
-	pylint -rn $< | grep $< | sort -t: -k2 -n -r | tee $@
-	if [[ -s $@ ]]; then exit 1; else rm -f $@; fi
+bandit:
+	bandit -q -s B101 ${SOURCES}
 
-checks: format doctest
-
-format: isort black lint lama
-
-black: $(PYTHON_FILES)
-	black -q $?
+black: isort
+	black -q ${SOURCES} ${TESTS}
 
 clean:
 	git clean -dfx
 
-test: $(DOCTEST_FILES)
+coverage:
+	- pytest -q --cov="." --cov-report=html
+	open htmlcov/index.html
+
+fixme:
+	pylint -rn ${SOURCES} ${TESTS} | sort -t: -k2 -n -r
 
 isort:
-	isort $(PYTHON_FILES)
+	isort ${SOURCES} ${TESTS}
 
-lama : $(PYTHON_FILES)
-	pylama $? --ignore E203		# conflicts with black formatting
+lint: black pylama bandit
 
-lint: $(LINT_FILES)
+mypy:
+	mypy ${PWD}
 
-.PHONY: black checks clean doctest isort lama lint
+pipenv_setup:   # run this once, during initialization
+	pipenv install --dev
+	pipenv install ${PIPENV_PACKAGES}
+	pipenv shell
+
+pylama:
+	pylama -o .config/pylama ${SOURCES} ${TESTS}
+
+pylint:
+	pylint --disable=fixme,broad-except -rn ${SOURCES} ${TESTS} | sort -t: -k2 -n -r
+
+requirements.txt: ${SOURCES} ${TESTS}
+	pip freeze > requirements.txt
+
+test:
+	pytest -q
+
+.PHONY: all bandit black coverage clean fixme isort lint mypy pipenv_setup pylama pylint test
