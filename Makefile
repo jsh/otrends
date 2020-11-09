@@ -1,9 +1,9 @@
 # The usual
 
+PYTEST_OPTIONS := -q --doctest-modules
+PIPENV_PACKAGES := bandit isort mypy pycodestyle pydocstyle pyflakes pylama pylama_pylint pytest pytest-cov
 SOURCES := $(wildcard *.py)
 TESTS := $(wildcard t/*.py)
-PIPENV_PACKAGES := bandit isort mypy pycodestyle pydocstyle pyflakes pylama pylama_pylint pytest pytest-cov
-PYTEST_OPTIONS := -q --doctest-modules
 
 all: lint test requirements.txt
 
@@ -14,7 +14,7 @@ black: isort
 	black -q ${SOURCES} ${TESTS}
 
 clean:
-	git clean -dfx
+	git clean -dfx ${NO_CLEAN:%=--exclude %}
 
 coverage:
 	- pytest ${PYTEST_OPTIONS} --cov="." --cov-report=html
