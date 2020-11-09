@@ -3,6 +3,7 @@
 SOURCES := $(wildcard *.py)
 TESTS := $(wildcard t/*.py)
 PIPENV_PACKAGES := bandit isort mypy pycodestyle pydocstyle pyflakes pylama pylama_pylint pytest pytest-cov
+PYTEST_OPTIONS := -q --doctest-modules
 
 all: lint test requirements.txt
 
@@ -16,7 +17,7 @@ clean:
 	git clean -dfx
 
 coverage:
-	- pytest -q --cov="." --cov-report=html
+	- pytest ${PYTEST_OPTIONS} --cov="." --cov-report=html
 	open htmlcov/index.html
 
 fixme:
@@ -45,6 +46,6 @@ requirements.txt: ${SOURCES} ${TESTS}
 	pip freeze > requirements.txt
 
 test:
-	pytest -q
+	pytest ${PYTEST_OPTIONS}
 
 .PHONY: all bandit black coverage clean fixme isort lint mypy pipenv_setup pylama pylint test

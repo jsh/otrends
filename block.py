@@ -128,7 +128,7 @@ class Block:
         >>> from sequence import Sequence
         >>> s = Sequence([0, 1, 1, 2, 3, 5])
         >>> b = Block(s, 0, 6)
-        >>> b.mu()
+        >>> b.arithmetic_mean()
         2.0
         """
         return self.total / self.length

@@ -68,11 +68,11 @@ class BlockStack(collections.deque):
             [1.0, 2.0, 4.0]
         ]
         """
-        new_mean = block.mu()
-        while self._latest() and (self._latest().mu() < new_mean):
+        new_mean = block.arithmetic_mean()
+        while self._latest() and (self._latest().arithmetic_mean() < new_mean):
             top_of_stack = self.pop()
             block = top_of_stack.merge(block)
-            new_mean = block.mu()
+            new_mean = block.arithmetic_mean()
         self.append(block)
 
     def rotate_and_merge(self):
@@ -94,7 +94,7 @@ class BlockStack(collections.deque):
         >>> print(n)
         1
         """
-        while self[-1].mu() < self[0].mu():
+        while self[-1].arithmetic_mean() < self[0].arithmetic_mean():
             oldest = self.popleft()
             self.coalesce(oldest)
         return self[0].start
